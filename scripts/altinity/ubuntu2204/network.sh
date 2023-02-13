@@ -41,13 +41,9 @@ sysctl net.ipv6.conf.all.disable_ipv6=1
 printf "\nnet.ipv6.conf.all.disable_ipv6 = 1\n" >> /etc/sysctl.conf
 
 # Set the hostname, and then ensure it will resolve properly.
-if [[ "$PACKER_BUILD_NAME" =~ ^generic-ubuntu2204-(vmware|hyperv|libvirt|parallels|virtualbox)$ ]]; then
-  printf "ubuntu2204.localdomain\n" > /etc/hostname
-  printf "\n127.0.0.1 ubuntu2204.localdomain\n\n" >> /etc/hosts
-else
-  printf "magma.localdomain\n" > /etc/hostname
-  printf "\n127.0.0.1 magma.localdomain\n\n" >> /etc/hosts
-fi
+printf "ubuntu2204.localdomain\n" > /etc/hostname
+printf "\n127.0.0.1 ubuntu2204.localdomain\n\n" >> /etc/hosts
+
 
 cat <<-EOF > /etc/netplan/01-netcfg.yaml
 network:
