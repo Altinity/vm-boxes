@@ -73,7 +73,7 @@ ROBOX_FILES="packer-cache.json "\
 "magma-docker.json magma-hyperv.json magma-vmware.json magma-libvirt.json magma-virtualbox.json "\
 "generic-docker.json generic-hyperv.json generic-vmware.json generic-libvirt.json generic-libvirt-x32.json generic-parallels.json generic-virtualbox.json generic-virtualbox-x32.json "\
 "lineage-hyperv.json lineage-vmware.json lineage-libvirt.json lineage-virtualbox.json "\
-"developer-ova.json developer-hyperv.json developer-vmware.json developer-libvirt.json developer-virtualbox.json"\
+"developer-ova.json developer-hyperv.json developer-vmware.json developer-libvirt.json developer-virtualbox.json "\
 "altinity-ubuntu2204-libvirt.json"
 
 # Collect the list of ISO urls.
@@ -788,7 +788,7 @@ function box() {
       [[ "$1" =~ ^.*lineage.*$ ]] && [[ "$1" =~ ^.*libvirt.*$ ]] && packer build -on-error=$PACKER_ON_ERROR -parallel-builds=$PACKER_MAX_PROCS -only=$1 lineage-libvirt.json
 
       export PACKER_LOG_PATH="$BASE/logs/altinity-libvirt-log-`date +'%Y%m%d.%H.%M.%S'`.txt"
-      [ "$1" =~ ^.*altinity.*$ ]] && [[ "$1" =~ ^.*libvirt.*$ ]] && packer build -on-error=$PACKER_ON_ERROR -parallel-builds=$PACKER_MAX_PROCS -only=$1 altinity-ubuntu2204-libvirt.json
+      [[ "$1" =~ ^.*altinity.*$ ]] && [[ "$1" =~ ^.*libvirt.*$ ]] && packer build -on-error=$PACKER_ON_ERROR -parallel-builds=$PACKER_MAX_PROCS -only=$1 altinity-ubuntu2204-libvirt.json
   fi
 
   export PACKER_LOG_PATH="$BASE/logs/magma-vmware-log-`date +'%Y%m%d.%H.%M.%S'`.txt"
