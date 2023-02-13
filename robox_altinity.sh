@@ -156,6 +156,6 @@ if [[ $1 == "box" ]]; then box $2
 
 # Catchall
 else
-  echo "Only supports robox_altinity.sh {box NAME}"
+  echo "Only supports `robox_altinity.sh box altinity-libvirt`"
   exit 2
 fi
