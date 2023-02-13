@@ -1,0 +1,136 @@
+ {
+  "variables": {
+    "box_version": "{{env `VERSION`}}"
+  },
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/ubuntu2204/apt.sh",
+        "scripts/ubuntu2204/floppy.sh",
+        "scripts/ubuntu2204/fixkvp.sh",
+        "scripts/ubuntu2204/network.sh"
+      ],
+      "type": "shell",
+      "timeout": "120m",
+      "start_retry_timeout": "15m",
+      "expect_disconnect": "true",
+      "only": [
+        "altinity-ubuntu2204-libvirt"
+      ]
+    },
+    {
+      "scripts": [
+        "scripts/ubuntu2204/vagrant.sh",
+        "scripts/ubuntu2204/profile.sh",
+        "scripts/ubuntu2204/motd.sh",
+        "scripts/ubuntu2204/fixtty.sh",
+        "scripts/ubuntu2204/virtualbox.sh",
+        "scripts/ubuntu2204/parallels.sh",
+        "scripts/ubuntu2204/vmware.sh",
+        "scripts/ubuntu2204/qemu.sh",
+        "scripts/ubuntu2204/cleanup.sh",
+        "scripts/ubuntu2204/ubuntu_ami_for_ci.sh"
+      ],
+      "type": "shell",
+      "timeout": "120m",
+      "pause_before": "120s",
+      "start_retry_timeout": "15m",
+      "expect_disconnect": "true",
+      "only": [
+        "altinity-ubuntu2204-libvirt"
+      ]
+    },
+  ],
+  "builders": [
+    {
+      "type": "qemu",
+      "name": "altinity-ubuntu2204-libvirt",
+      "vm_name": "altinity-ubuntu2204-libvirt",
+      "output_directory": "output/altinity-ubuntu2204-libvirt",
+      "qemu_binary": "qemu-system-x86_64",
+      "boot_wait": "10s",
+      "boot_keygroup_interval": "1s",
+      "boot_command": [
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
+        "c<wait10>",
+        "set gfxpayload=keep<enter><wait10>",
+        "linux /casper/vmlinuz autoinstall quiet net.ifnames=0 biosdevname=0 ",
+        "ds=\"nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/generic.ubuntu2204.vagrant.\" --- <enter><wait10>",
+        "initrd /casper/initrd<enter><wait10>",
+        "boot<enter>"
+      ],
+      "format": "qcow2",
+      "disk_size": "131072",
+      "disk_discard": "unmap",
+      "disk_detect_zeroes": "on",
+      "disk_cache": "unsafe",
+      "disk_image": false,
+      "disk_compression": true,
+      "disk_interface": "virtio-scsi",
+      "net_device": "virtio-net",
+      "cpus": 2,
+      "memory": 2048,
+      "http_directory": "http",
+      "headless": true,
+      "iso_url": "https://releases.ubuntu.com/22.04/ubuntu-22.04.1-live-server-amd64.iso",
+      "iso_checksum": "sha256:10f19c5b2b8d6db711582e0e27f5116296c34fe4b313ba45f9b201a5007056cb",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "3600s",
+      "ssh_handshake_attempts": "10000",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+    },
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "keep_input_artifact": false,
+        "vagrantfile_template": "tpl/generic-{{split build_name \"-\" 1}}.rb",
+        "output": "output/generic-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box",
+        "include": [
+          "tpl/generic/info.json"
+        ]
+      },
+      {
+        "type": "checksum",
+        "checksum_types": [
+          "sha256"
+        ],
+        "keep_input_artifact": false,
+        "output": "output/generic-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box.sha256"
+      }
+    ],
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "keep_input_artifact": false,
+        "vagrantfile_template": "tpl/roboxes-{{split build_name \"-\" 1}}.rb",
+        "output": "output/roboxes-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box",
+        "include": [
+          "tpl/roboxes/info.json"
+        ]
+      },
+      {
+        "type": "checksum",
+        "checksum_types": [
+          "sha256"
+        ],
+        "keep_input_artifact": false,
+        "output": "output/roboxes-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box.sha256"
+      }
+    ]
+  ]
+}
