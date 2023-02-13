@@ -1,7 +1,6 @@
 {
  "Author": "Altinity",
- "Website": "https://roboxes.org/",
- "Artifacts": "https://vagrantcloud.com/generic/",
- "Repository": "https://github.com/MyroTk/robox/",
- "Description": "Custom virtual machine for Altinity github runners on Ubuntu 22.04"
+ "Artifacts": "https://altinity-build-artifacts.s3.amazonaws.com/index.html#boxes/libvirt/",
+ "Repository": "https://github.com/Altinity/vm-boxes",
+ "Description": "Custom virtual machine for Altinity github runners"
 }
