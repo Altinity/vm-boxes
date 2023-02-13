@@ -156,6 +156,6 @@ if [[ $1 == "box" ]]; then box $2
 
 # Catchall
 else
-  echo $"Only supports `basename box altinity-libvirt`"
+  echo $"Only supports `basename $0` box altinity-libvirt"
   exit 2
 fi
