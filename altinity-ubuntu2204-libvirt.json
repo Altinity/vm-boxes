@@ -126,26 +126,6 @@
         "keep_input_artifact": false,
         "output": "output/altinity-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box.sha256"
       }
-    ],
-    [
-      {
-        "type": "vagrant",
-        "compression_level": 9,
-        "keep_input_artifact": false,
-        "vagrantfile_template": "tpl/roboxes-{{split build_name \"-\" 1}}.rb",
-        "output": "output/roboxes-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box",
-        "include": [
-          "tpl/roboxes/info_altinity.json"
-        ]
-      },
-      {
-        "type": "checksum",
-        "checksum_types": [
-          "sha256"
-        ],
-        "keep_input_artifact": false,
-        "output": "output/roboxes-{{split build_name \"-\" 1}}-{{split build_name \"-\" 2}}-{{user `box_version`}}.box.sha256"
-      }
     ]
   ]
 }
