@@ -63,7 +63,7 @@
       "vm_name": "altinity-ubuntu2204-libvirt",
       "output_directory": "output/altinity-ubuntu2204-libvirt",
       "qemu_binary": "qemu-system-x86_64",
-      "boot_wait": "10s",
+      "boot_wait": "20s",
       "boot_keygroup_interval": "1s",
       "boot_command": [
         "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
