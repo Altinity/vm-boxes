@@ -1,0 +1,6 @@
+{
+ "Author": "Altinity",
+ "Artifacts": "https://altinity-build-artifacts.s3.amazonaws.com/index.html#boxes/libvirt/",
+ "Repository": "https://github.com/Altinity/vm-boxes",
+ "Description": "Custom virtual machine for Altinity github runners"
+}
